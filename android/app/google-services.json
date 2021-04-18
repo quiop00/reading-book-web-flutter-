@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "223569695564",
+    "project_id": "reading-book-flutter",
+    "storage_bucket": "reading-book-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223569695564:android:e865619179c6f63eae35e9",
+        "android_client_info": {
+          "package_name": "com.example.reading_book"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "223569695564-9t87e2uns2inrguntiq3khheggil4mrg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArFhNCySrAooM1HDzcG1LqKUtV-ic6Lhs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "223569695564-9t87e2uns2inrguntiq3khheggil4mrg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
