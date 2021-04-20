@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reading_book/components/book_list.dart';
 import 'package:reading_book/components/slide_bar.dart';
+import 'package:reading_book/ui/shared/drawer.dart';
 
 class HomeView extends StatefulWidget{
   @override
@@ -14,6 +15,10 @@ class _HomeView extends State<HomeView>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerWidget(),
+      appBar: AppBar(
+          title: Text('Thư viện của tôi'),
+      ),
       body: Container(
         color:Color.fromRGBO(246, 246, 246,0.8),
         child: Column(

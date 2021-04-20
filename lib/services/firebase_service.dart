@@ -1,28 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:reading_book/models/book.dart';
+import 'package:reading_book/models/chapter.dart';
 class FirebaseService{
   var  firebase = FirebaseFirestore.instance;
 
-  // ignore: missing_return
-  Future<DocumentReference> addBooks()async{
-   // Map<String,dynamic> data=book.toJson();
-    var datas={
-      'name':'de ba',
-      'author':'hoang duc',
-      'chapters': [{
-        'title':'Chapter 1',
-        'content': 'Chap 1',
-        'numberOfChapter': 1
-      }]
-    };
+
+  Future<int> addBooks(Book book)async{
+   var user=FirebaseAuth.instance.currentUser;
+   print(user.email);
+   if(user.email==null) return 2;
+   Map<String,dynamic> data=book.toJson();
     try{
-        await firebase.collection('books').add(datas);
+        await firebase.collection('books').add(data)
+            .catchError((onError){
+            print(onError.message);
+        });
     }
     catch(err){
         print(err.message);
-
+        return 2;
     }
+   return 1;
+  }
+
+  Future<int> addChapters(Chapter chapter,String idBook)async{
+    var user=FirebaseAuth.instance.currentUser;
+    if(user.email==null) return 2;
+    Map<String,dynamic> data=chapter.toJson();
+    try{
+      await firebase.collection('books').doc(idBook).collection("chapters").add(data)
+          .catchError((onError){
+        print(onError.message);
+      });
+    }
+    catch(err){
+      print(err.message);
+      return 2;
+    }
+    return 1;
   }
   Future<DocumentReference> getBooks()async{
     if(firebase==null)
@@ -37,8 +54,8 @@ class FirebaseService{
         print(data);
     }
     catch(err){
-
     }
   }
+
 
 }

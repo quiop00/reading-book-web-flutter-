@@ -15,8 +15,6 @@ class LoginView extends StatefulWidget{
 class _LoginView extends State<LoginView>{
 
   final FirebaseService fb= locator<FirebaseService>();
-
-
   final FirebaseAuth firebaseAuth=FirebaseAuth.instance;
   GlobalKey<FormState> _formKey=GlobalKey<FormState>();
   String _email;
@@ -26,7 +24,6 @@ class _LoginView extends State<LoginView>{
     // TODO: implement initState
     super.initState();
     checkAuth();
-    fb.addBooks();
   }
   @override
   Widget build(BuildContext context) {

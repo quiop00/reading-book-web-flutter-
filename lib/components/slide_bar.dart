@@ -10,7 +10,7 @@ class _SlideBar extends State<SlideBar>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height*0.9,
+      height: MediaQuery.of(context).size.height*0.8,
       padding: EdgeInsets.only(top: 34),
       color: Colors.white,
       child: Column(
@@ -19,7 +19,7 @@ class _SlideBar extends State<SlideBar>{
           Text('Thể loại'),
           SizedBox(height: 10,),
           Container(
-            height: MediaQuery.of(context).size.height*0.8,
+            height: MediaQuery.of(context).size.height*0.7,
             child: ListView(
               children: [
                 CategoryElement(category: 'Tiên hiệp',),

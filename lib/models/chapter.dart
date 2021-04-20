@@ -1,14 +1,13 @@
 class Chapter{
-  final String id;
   final String title;
   final String content;
   final String numberOfChapter;
-  Chapter({this.id,this.title,this.content,this.numberOfChapter});
+  Chapter({this.title,this.content,this.numberOfChapter});
   factory Chapter.fromJson(Map<String,dynamic> json){
     return Chapter(
       title: json['title'],
       content: json['content'],
-      numberOfChapter: json['numberOfChapter']
+      numberOfChapter: json['numberOfChapter'],
     );
   }
   Map<String,dynamic> toJson() =>
