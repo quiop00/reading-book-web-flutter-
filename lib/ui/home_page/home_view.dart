@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider_architecture/_viewmodel_provider.dart';
 import 'package:reading_book/components/book_list.dart';
 import 'package:reading_book/components/slide_bar.dart';
+import 'package:reading_book/services/firebase_service.dart';
+import 'package:reading_book/services/locator_getit.dart';
+import 'package:reading_book/ui/home_page/home_view_model.dart';
 import 'package:reading_book/ui/shared/drawer.dart';
 
 class HomeView extends StatefulWidget{
@@ -12,6 +16,15 @@ class HomeView extends StatefulWidget{
 
 }
 class _HomeView extends State<HomeView>{
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getBooks();
+  }
+  getBooks()async{
+    await locator<FirebaseService>().getBooks();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +103,10 @@ class _HomeView extends State<HomeView>{
                               child: Text("Truyện hay")
                           ),
                           Flexible(
-                            child: BookList()
+                            child: ViewModelProvider<HomeViewModel>.withConsumer(
+                                builder:(context,model,child)=> BookList(),
+                                viewModelBuilder: ()=>HomeViewModel(),
+                            )
                           ),
                         ],
                       ),

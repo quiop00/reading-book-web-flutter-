@@ -37,6 +37,7 @@ dependencies:
   provider: any
   provider_architecture: any
   cloud_firestore: any
+  uuid: 3.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter

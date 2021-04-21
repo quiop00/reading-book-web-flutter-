@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider_architecture/_viewmodel_provider.dart';
+import 'package:reading_book/models/book.dart';
+import 'package:reading_book/services/firebase_service.dart';
+import 'package:reading_book/services/locator_getit.dart';
 import 'package:reading_book/ui/add_book_page/add_book_view.dart';
 import 'package:reading_book/ui/home_page/home_view.dart';
+import 'package:reading_book/ui/my_books_page/my_books_view_model.dart';
+import 'package:reading_book/ui/my_books_page/my_chapters_view.dart';
 import 'package:reading_book/ui/shared/drawer.dart';
 
 class MyBookView extends StatefulWidget{
@@ -12,6 +18,7 @@ class MyBookView extends StatefulWidget{
 }
 class _MyBookView extends State<MyBookView>{
   var isHover;
+  List<Book> books;
   @override
   void initState() {
     // TODO: implement initState
@@ -58,50 +65,79 @@ class _MyBookView extends State<MyBookView>{
                   },
                   child: Text('Đăng truyện mới')
               ),
-              Container(
-                child: SingleChildScrollView(
-                  child: DataTable(
-                    columns: [
-                      DataColumn(label: Text('Tên truyện')),
-                      DataColumn(label: Text('Mô Tả')),
-                      DataColumn(label: Text('    Action'))
-                    ],
-                    rows: [
-                      DataRow(cells: [
-                        DataCell(Text('Đế bá')),
-                        DataCell(
-                            Container(
-                              width: MediaQuery.of(context).size.width*0.5,
-                              child: Text('Mô tả ở đây aaaaaaaaaaaaaaaaaaaaaaaaaaaa Mô tả ở đây Mô tả ở đây Mô tả ở đây Mô tả ở đâyMô tả ở đây',
-                                maxLines: 1,overflow: TextOverflow.ellipsis,),
-                            )
-
-                        ),
-                        DataCell(
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children:[
-                                IconButton(
-                                  icon:Icon(Icons.edit),
-                                  onPressed: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeView()));
-                                  },
-                                ),
-                                SizedBox(width: 2,),
-                                IconButton(
-                                  icon:Icon(Icons.delete),
-                                  onPressed: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeView()));
-                                  },
-                                )
-                              ],
-                            )
-                        )
-                      ]),
-
-                    ],
-                  ),
-                ),
+              ViewModelProvider<MyBookViewModel>.withConsumer(
+                viewModelBuilder: ()=>MyBookViewModel(),
+                onModelReady: (model)=>{
+                    model.getMyBooks(onSuccess: (){
+                      books=model.books;
+                    })
+                },
+                builder: (context,model,child){
+                  if(model.books==null)
+                    return Container(child: Text('No data'),);
+                  else
+                    books = model.books;
+                  return Container(
+                    child: SingleChildScrollView(
+                      child: DataTable(
+                        columns: [
+                          DataColumn(label: Text('Tên truyện')),
+                          DataColumn(label: Text('Mô Tả')),
+                          DataColumn(label: Text('    Action'))
+                        ],
+                        rows:
+                        books?.map((e) =>
+                            DataRow(cells: [
+                              DataCell(Text(e.name)),
+                              DataCell(
+                                  Container(
+                                      width: MediaQuery.of(context).size.width*0.5,
+                                      child: Text(e.description,
+                                        maxLines: 1,overflow: TextOverflow.ellipsis,)
+                                  )
+                              ),
+                              DataCell(
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children:[
+                                      ElevatedButton(
+                                          style: ButtonStyle(
+                                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      side: BorderSide(color: Colors.blue)
+                                                  )
+                                              )
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>MyChapterView(idBook: e.id,)));
+                                          },
+                                          child: Text('Chapters')
+                                      ),
+                                      SizedBox(width: 2,),
+                                      IconButton(
+                                        icon:Icon(Icons.edit),
+                                        onPressed: (){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeView()));
+                                        },
+                                      ),
+                                      SizedBox(width: 2,),
+                                      IconButton(
+                                        icon:Icon(Icons.delete),
+                                        onPressed: (){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeView()));
+                                        },
+                                      )
+                                    ],
+                                  )
+                              )
+                            ]),
+                        )?.toList()
+                        ,
+                      ),
+                    ),
+                  );
+                }
               )
             ],
 

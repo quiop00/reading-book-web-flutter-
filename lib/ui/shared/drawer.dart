@@ -54,13 +54,13 @@ class _DrawerWidget extends State<DrawerWidget>{
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeView()));
               },
             ),
-            ListTile(
+            isLogin?ListTile(
               leading: Icon(Icons.book),
               title: Text("Truyện của tôi"),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>MyBookView()));
               },
-            ),
+            ):SizedBox(height: 1,),
             isLogin?ListTile(
               leading: Icon(Icons.logout),
               title: Text("Đăng xuất"),

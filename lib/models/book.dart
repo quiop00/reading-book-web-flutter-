@@ -11,18 +11,17 @@ class Book {
   List<Chapter> chapters;
   String imagePath;
   List <Comment> comments;
-  Book({this.id,this.name,this.author,this.chapters,this.imagePath,this.comments,this.description});
+  Book({this.name,this.author,this.chapters,this.imagePath,this.comments,this.description});
   factory Book.fromJson(Map<String,dynamic> json){
     return Book(
         name: json['name'],
         author: json['author'],
-        chapters: (json['chapters'] as List)
-            ?.map((e) => e==null?null:Chapter.fromJson(e as Map<String,dynamic>)),
+        chapters: (json['chapter'] as List)
+            ?.map((e) => e==null?null:Chapter.fromJson(e as Map<String,dynamic>))?.toList(),
         imagePath: json['imagePath'],
         comments: (json['comments'] as List)
-            ?.map((e) => e==null?null:Comment.fromJson(e as Map<String,dynamic>)) ,
+            ?.map((e) => e==null?null:Comment.fromJson(e as Map<String,dynamic>))?.toList() ,
         description: json['description'],
-        id: json['id_book']
     );
   }
   Map<String,dynamic> toJson()=>

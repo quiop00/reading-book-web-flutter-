@@ -11,7 +11,7 @@ class AddBookModel extends BaseViewModel{
   bool isBusy=false;
   addBook()async{
     isBusy =true;
-    await _api.addBooks(book).then((value) {
+    await _api.addBook(book).then((value) {
       print(value);
       response =value;
       notifyListeners();

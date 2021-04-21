@@ -7,21 +7,21 @@ import 'package:reading_book/ui/add_book_page/add_chapter_view_model.dart';
 import 'package:reading_book/ui/my_books_page/my_books_view.dart';
 import 'package:reading_book/ui/shared/drawer.dart';
 
-class AddBookView extends StatefulWidget{
+class AddChapterView extends StatefulWidget{
   final String idBook;
-  AddBookView({this.idBook});
+  AddChapterView({this.idBook});
   @override
   State<StatefulWidget> createState() {
-    return _AddBookView(idBook: idBook);
+    return _AddChapterView(idBook: idBook);
   }
 }
-class _AddBookView extends State<AddBookView>{
+class _AddChapterView extends State<AddChapterView>{
   TextEditingController _title=TextEditingController();
   TextEditingController _content=TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //TextEditingController _numChapter=TextEditingController();
   final String idBook;
-  _AddBookView({this.idBook});
+  _AddChapterView({this.idBook});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,9 +115,10 @@ class _AddBookView extends State<AddBookView>{
                                     showMessage('Không được bỏ trống nội dung');
                                     return;
                                   }
+                                  String content= _content.text.replaceAll('"',"\'");
                                   model.chapter = Chapter(
                                       title: _title.text,
-                                      content: _content.text
+                                      content: content
                                   ) ;
                                   await model.addChapter(idBook);
                                   print(model.response);
@@ -150,7 +151,9 @@ class _AddBookView extends State<AddBookView>{
                                 ],
                               ),
                               child: InkWell(
-                                onTap: (){},
+                                onTap: (){
+                                  Navigator.pop(context);
+                                },
                                 child: Center(
                                   child: Text('Hủy', style: TextStyle(fontSize: 15,color: Colors.white),),
                                 ),

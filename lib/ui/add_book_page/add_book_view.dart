@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/_viewmodel_provider.dart';
 import 'package:reading_book/models/book.dart';
@@ -14,7 +15,18 @@ class AddBookView extends StatefulWidget{
 class _AddBookView extends State<AddBookView>{
   TextEditingController _name=TextEditingController();
   TextEditingController _description=TextEditingController();
-  //TextEditingController _numChapter=TextEditingController();
+  final FirebaseAuth firebaseAuth=FirebaseAuth.instance;
+  var data;
+  String author;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initStatusLogin();
+  }
+  initStatusLogin()async{
+    data= await firebaseAuth.currentUser;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,7 +123,6 @@ class _AddBookView extends State<AddBookView>{
                                       else Navigator.push(context, MaterialPageRoute(builder: (context)
                                           =>MyBookView())
                                       );
-
                                   },
                                   child: Center(
                                     child: Text('Đăng', style: TextStyle(fontSize: 15,color: Colors.white),),
@@ -135,7 +146,9 @@ class _AddBookView extends State<AddBookView>{
                                   ],
                                 ),
                                 child: InkWell(
-                                  onTap: (){},
+                                  onTap: (){
+                                    Navigator.pop(context);
+                                  },
                                   child: Center(
                                     child: Text('Hủy', style: TextStyle(fontSize: 15,color: Colors.white),),
                                   ),
