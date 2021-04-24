@@ -51,14 +51,14 @@ class _DrawerWidget extends State<DrawerWidget>{
               leading: Icon(Icons.home),
               title: Text("Trang chủ"),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeView()));
+                Navigator.pushNamed(context, '/home');
               },
             ),
             isLogin?ListTile(
               leading: Icon(Icons.book),
               title: Text("Truyện của tôi"),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyBookView()));
+                Navigator.pushNamed(context,'/my-book');
               },
             ):SizedBox(height: 1,),
             isLogin?ListTile(
@@ -74,7 +74,7 @@ class _DrawerWidget extends State<DrawerWidget>{
               leading: Icon(Icons.login),
               title: Text("Đăng nhập"),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginView()));
+                Navigator.pushNamed(context,'/login');
               },
             ),
           ]

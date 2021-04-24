@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:reading_book/models/book.dart';
+import 'package:reading_book/ui/detail_page/detail_view.dart';
 
 class BookList extends StatelessWidget{
-
+  final List<Book> books;
+  BookList({this.books});
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -14,18 +17,14 @@ class BookList extends StatelessWidget{
       child: GridView.count(
           crossAxisCount: 2,
           childAspectRatio: (itemWidth / itemHeight),
-          children: [
-             BookListElement(),
-             BookListElement(),
-             BookListElement(),
-             BookListElement(),
-             BookListElement(),
-              ],
+          children: books.map((e) => BookListElement(book: e,)).toList(),
          ),
     );
   }
 }
 class BookListElement extends StatelessWidget{
+  final Book book;
+  BookListElement({this.book});
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -56,11 +55,11 @@ class BookListElement extends StatelessWidget{
                   Container(
                     margin:EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Center(
-                      child: Text("Cậu bé đeo tất xanh", style: TextStyle(fontSize: 30),),
+                      child: Text(book.name, style: TextStyle(fontSize: 30),),
                     )
                   ),
                   Flexible(child:
-                    Text('Tại trong tan hoang quật khởi, tại trong tịch diệt khôi phục. Biển cả thành bụi, lôi điện khô kiệt, sợi u vụ kia lại một lần tới gần đại địa, thế gian gông xiềng được mở ra, một cái thế giới hoàn toàn mới như vậy để lộ một góc thần bí ',
+                    Text(book.description,
                       maxLines: 4,overflow: TextOverflow.ellipsis,)
                   ),
                   Expanded(
@@ -74,7 +73,7 @@ class BookListElement extends StatelessWidget{
                             children: [
                               Icon(Icons.account_circle,color: Colors.grey,size: 12,),
                               SizedBox(width: 5,),
-                              Text('Nguyễn Văn An'),
+                              Text(book.author),
                             ],
                           )),
                           Container(
@@ -85,7 +84,10 @@ class BookListElement extends StatelessWidget{
                                 borderRadius: BorderRadius.circular(20)
                             ),
                             child: ElevatedButton(
-                              onPressed:(){},
+                              onPressed:(){
+                                print(book.name+" a");
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailBook(book:book)));
+                              },
                               child: Center(child: Text('Đọc')),
                             ),
                           )

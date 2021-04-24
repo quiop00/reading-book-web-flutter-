@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider_architecture/_viewmodel_provider.dart';
 import 'package:reading_book/components/book_list.dart';
 import 'package:reading_book/components/slide_bar.dart';
+import 'package:reading_book/models/book.dart';
 import 'package:reading_book/services/firebase_service.dart';
 import 'package:reading_book/services/locator_getit.dart';
 import 'package:reading_book/ui/home_page/home_view_model.dart';
 import 'package:reading_book/ui/shared/drawer.dart';
-
+import 'package:reading_book/utils/helper.dart';
 class HomeView extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return _HomeView();
   }
-
 }
 class _HomeView extends State<HomeView>{
+  List<Book> books;
   @override
   void initState() {
     // TODO: implement initState
@@ -23,7 +24,7 @@ class _HomeView extends State<HomeView>{
     getBooks();
   }
   getBooks()async{
-    await locator<FirebaseService>().getBooks();
+    books= await locator<FirebaseService>().getBooks();
   }
   @override
   Widget build(BuildContext context) {
@@ -104,10 +105,18 @@ class _HomeView extends State<HomeView>{
                           ),
                           Flexible(
                             child: ViewModelProvider<HomeViewModel>.withConsumer(
-                                builder:(context,model,child)=> BookList(),
+                                builder:(context,model,child)=>books==null?Container():BookList(books: books,),
                                 viewModelBuilder: ()=>HomeViewModel(),
+                                onModelReady: (model)=>
+                                  model.getBooks(onLoading:(){
+                                    Helpers.onLoading(context);
+                                  },onSuccess:(){
+                                    Navigator.of(context).pop();
+                                    books = model.books;
+                                  }
                             )
                           ),
+                          )
                         ],
                       ),
                   ),

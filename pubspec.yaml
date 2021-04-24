@@ -36,8 +36,9 @@ dependencies:
   get_it: any
   provider: any
   provider_architecture: any
-  cloud_firestore: any
+  cloud_firestore: ^1.0.6
   uuid: 3.0.4
+  flutter_spinkit: ^4.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
