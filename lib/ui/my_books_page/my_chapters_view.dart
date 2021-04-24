@@ -31,11 +31,6 @@ class _MyChapterView extends State<MyChapterView>{
     // TODO: implement initState
     super.initState();
     isHover=false;
-    initChapters();
-  }
-  void initChapters()async{
-
-    chapters = await locator<FirebaseService>().getChapters(idBook);
   }
   @override
   Widget build(BuildContext context) {
@@ -103,10 +98,17 @@ class _MyChapterView extends State<MyChapterView>{
                   viewModelBuilder: ()=>MyChapterViewModel(),
                   onModelReady: (model)=>{
                     model.getChapters(idBook,onSuccess: (){
-                      //chapters=model.chapters;
+                      chapters=model.chapters;
                     })
                   },
-                  builder:(context,model,_)=> Container(
+                  builder:(context,model,_){
+                    print(idBook);
+                    if(model.chapters==null)
+                      return Container(child: Text('No data'),);
+                    else
+                        chapters = model.chapters;
+                    return
+                    Container(
                     child: SingleChildScrollView(
                       child: DataTable(
                         columns: [
@@ -164,7 +166,8 @@ class _MyChapterView extends State<MyChapterView>{
                           ]
                       ),
                     ),
-                  ),
+                  );
+                  }
                 )
               ],
 

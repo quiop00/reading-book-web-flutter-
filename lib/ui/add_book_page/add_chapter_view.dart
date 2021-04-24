@@ -118,7 +118,8 @@ class _AddChapterView extends State<AddChapterView>{
                                   String content= _content.text.replaceAll('"',"\'");
                                   model.chapter = Chapter(
                                       title: _title.text,
-                                      content: content
+                                      content: content,
+                                      timeStamp: DateTime.now().millisecondsSinceEpoch
                                   ) ;
                                   await model.addChapter(idBook);
                                   print(model.response);

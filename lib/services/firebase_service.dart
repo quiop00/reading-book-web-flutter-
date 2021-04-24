@@ -32,13 +32,13 @@ class FirebaseService{
     var uuid= Uuid();
     chapter.id=uuid.v1();
     try{
-      print(idBook);
-      List<Chapter> chapters= await getChapters(idBook);
-      if(chapters==null)
-        chapters =[];
-      chapters.add(chapter);
-      var data= chapters.map((e) => e.toJson()).toList();
-      await firebase.collection('books').doc(idBook).update({"chapter":data});
+      await FirebaseFirestore.instance
+          .collection("books")
+          .doc(idBook)
+          .collection("chapters")
+          .add(chapter.toJson()
+      );
+      return 1;
     }
     catch(err){
       print(err.message);
@@ -67,10 +67,8 @@ class FirebaseService{
     List<Book> books;
     if(firebase==null)
       firebase = FirebaseFirestore.instance;
-
     var user=FirebaseAuth.instance.currentUser;
     if(user.email==null) return null;
-    print(user.email);
     try{
       QuerySnapshot snapshot= await firebase.collection('books').get();
       books = snapshot.docs.map((doc) {
@@ -89,12 +87,20 @@ class FirebaseService{
     if(firebase==null)
       firebase = FirebaseFirestore.instance;
     var user=FirebaseAuth.instance.currentUser;
-    if(user.email==null) return null;
+    //if(user.email==null) return null;
     try{
-      DocumentSnapshot documentSnapshot= await firebase.collection('books').doc(idBook).get();
-      var data = documentSnapshot.data();
-      Book book= Book.fromJson(data);
-      return book.chapters;
+      QuerySnapshot snapshots= await firebase.collection('books')
+                                                       .doc(idBook)
+                                                       .collection("chapters").orderBy("timeStamp").get();
+      List<Chapter> chapters;
+      var i =0;
+      chapters = snapshots.docs.map((doc) {
+        var chapter= Chapter.fromJson(doc.data());
+        i++;
+        chapter.numberOfChapter= i;
+        return chapter;
+      } ).toList();
+      return chapters;
     }
     catch(err){
     }

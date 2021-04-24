@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:reading_book/components/chapter_list.dart';
+import 'package:reading_book/components/comment.dart';
 import 'package:reading_book/components/introduction.dart';
 import 'package:reading_book/models/book.dart';
+import 'package:reading_book/ui/chapter_page/chapter_view.dart';
 import 'package:reading_book/ui/shared/drawer.dart';
 
 class DetailBook extends StatefulWidget{
@@ -144,8 +146,8 @@ class _DetailBook extends State<DetailBook> with SingleTickerProviderStateMixin{
                           controller: _tabController,
                           children: [
                             IntroductionView(introduction: book.description,),
-                            ChapterList(book: book,),
-                            Text("Bình luận")
+                            ChaptersView(idBook: book.id,),
+                            CommentWidget(idBook:book.id)
                           ],
                         ),
                       ),

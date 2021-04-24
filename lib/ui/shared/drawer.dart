@@ -69,6 +69,7 @@ class _DrawerWidget extends State<DrawerWidget>{
                   firebaseAuth.signOut();
                   isLogin=false;
                 });
+                Navigator.pushNamed(context,'/home');
               },
             ):ListTile(
               leading: Icon(Icons.login),
