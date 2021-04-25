@@ -96,8 +96,8 @@ class FirebaseService{
       var i =0;
       chapters = snapshots.docs.map((doc) {
         var chapter= Chapter.fromJson(doc.data());
-        i++;
         chapter.numberOfChapter= i;
+        i++;
         return chapter;
       } ).toList();
       return chapters;
@@ -106,6 +106,59 @@ class FirebaseService{
     }
     return null;
   }
+  Future<Map<String,dynamic>> getPreNextChapter(String idBook,int idChapter)async{
+    if(firebase==null)
+      firebase = FirebaseFirestore.instance;
+    //if(user.email==null) return null;
+    Map<String,dynamic> preNext= {
+      "prev":null,
+      "next":null
+    };
+    try{
+      QuerySnapshot snapshots= await firebase.collection('books')
+          .doc(idBook)
+          .collection("chapters").orderBy("timeStamp").get();
+      List<Chapter> chapters;
+      var i =0;
+      chapters = snapshots.docs.map((doc) {
+        var chapter= Chapter.fromJson(doc.data());
+        chapter.numberOfChapter= i;
+        i++;
+        return chapter;
+      } ).toList();
+      if(idChapter!=0)
+        preNext["prev"] = chapters[idChapter-1];
+      if(idChapter!=chapters.length-1)
+         preNext["next"] =chapters[idChapter+1];
+    }
+    catch(err){
+    }
+    return preNext;
+  }
+  // Future<Chapter> getPreChapter(String idBook,int idChapter)async{
+  //   if(firebase==null)
+  //     firebase = FirebaseFirestore.instance;
+  //   //if(user.email==null) return null;
+  //   try{
+  //     if(idChapter==0)
+  //       return null;
+  //     QuerySnapshot snapshots= await firebase.collection('books')
+  //         .doc(idBook)
+  //         .collection("chapters").orderBy("timeStamp").get();
+  //     List<Chapter> chapters;
+  //     var i =0;
+  //     chapters = snapshots.docs.map((doc) {
+  //       var chapter= Chapter.fromJson(doc.data());
+  //       chapter.numberOfChapter= i;
+  //       i++;
+  //       return chapter;
+  //     } ).toList();
+  //     return chapters[idChapter-1];
+  //   }
+  //   catch(err){
+  //   }
+  //   return null;
+  // }
   Future<int> comment(Comment comment,String idBook) async{
     var user=FirebaseAuth.instance.currentUser;
     if(user.email==null) return 0;

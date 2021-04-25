@@ -29,6 +29,10 @@ class _RegisterView extends State<RegisterView>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Đăng kí"),
+        backgroundColor: Color.fromARGB(255,49,243,208),
+      ),
       body: Stack(
         children: [
           Positioned(
@@ -48,17 +52,17 @@ class _RegisterView extends State<RegisterView>{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Light Novel',style: TextStyle(fontSize: 35,color: Colors.white),),
-                  Text('chia sẻ tri thức - xây dựng tương lai',style: TextStyle(fontSize: 15,color: Colors.white),)
+                  Text('truyện hay mỗi ngày',style: TextStyle(fontSize: 15,color: Colors.white),)
                 ],
               ),
             ),
           ),
           Positioned(
               top:MediaQuery.of(context).size.height*0.28,
-              left:20,
+              left:MediaQuery.of(context).size.width*0.25,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 12,horizontal: 20),
-                width: MediaQuery.of(context).size.width-40,
+                width: MediaQuery.of(context).size.width*0.5,
                 height: MediaQuery.of(context).size.height*0.4,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -133,9 +137,9 @@ class _RegisterView extends State<RegisterView>{
           ),
           Positioned(
             top: MediaQuery.of(context).size.height*(0.28+0.4)*0.95,
-            left: MediaQuery.of(context).size.width*0.25,
+            left: MediaQuery.of(context).size.width*0.35,
             child: Container(
-              width: MediaQuery.of(context).size.width*0.5,
+              width: MediaQuery.of(context).size.width*0.3,
               padding: EdgeInsets.only(top: 10,bottom: 10),
               decoration: BoxDecoration(
                 color: Color.fromARGB(255,49,243,208),

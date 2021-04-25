@@ -54,7 +54,7 @@ class _DetailBook extends State<DetailBook> with SingleTickerProviderStateMixin{
                       margin: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: NetworkImage("http://product.hstatic.net/1000219449/product/upload_20256996a8e04dab81373e98cf37d344_grande.jpg"),
+                              image: NetworkImage(book.imagePath),
                               fit: BoxFit.cover
                           )
                       ),

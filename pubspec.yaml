@@ -39,6 +39,8 @@ dependencies:
   cloud_firestore: ^1.0.6
   uuid: 3.0.4
   flutter_spinkit: ^4.1.2
+  image_picker: any
+  image_picker_for_web: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

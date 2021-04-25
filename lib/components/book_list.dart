@@ -9,13 +9,13 @@ class BookList extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width*0.8 / 2;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 3;
+    final double itemWidth = size.width*0.8 / 3;
     return Container(
       //height: MediaQuery.of(context).size.height*0.8,
       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.05),
       child: GridView.count(
-          crossAxisCount: 2,
+          crossAxisCount: 3,
           childAspectRatio: (itemWidth / itemHeight),
           children: books.map((e) => BookListElement(book: e,)).toList(),
          ),
@@ -43,7 +43,7 @@ class BookListElement extends StatelessWidget{
               margin: EdgeInsets.all(12),
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage("http://product.hstatic.net/1000219449/product/upload_20256996a8e04dab81373e98cf37d344_grande.jpg"),
+                      image: NetworkImage(book.imagePath!=null?book.imagePath:"https://yesoffice.com.vn/wp-content/themes/zw-theme//assets/images/default.jpg"),
                       fit: BoxFit.cover
                   )
               ),
@@ -55,7 +55,7 @@ class BookListElement extends StatelessWidget{
                   Container(
                     margin:EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Center(
-                      child: Text(book.name, style: TextStyle(fontSize: 30),),
+                      child: Text(book.name, style: TextStyle(fontSize: 24),),
                     )
                   ),
                   Flexible(child:
@@ -73,22 +73,25 @@ class BookListElement extends StatelessWidget{
                             children: [
                               Icon(Icons.account_circle,color: Colors.grey,size: 12,),
                               SizedBox(width: 5,),
-                              Text(book.author),
+                              Text(book.author, style: TextStyle(fontSize: 12),),
                             ],
                           )),
-                          Container(
-                            width: itemWidth*0.1,
-                            height: 25,
-                            padding: EdgeInsets.only(right: 5,bottom: 1),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20)
-                            ),
-                            child: ElevatedButton(
-                              onPressed:(){
-                                print(book.name+" a");
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailBook(book:book)));
-                              },
-                              child: Center(child: Text('Đọc')),
+                          SizedBox(width: 2,),
+                          Expanded(
+                            child: Container(
+                              width: itemWidth*0.1,
+                              height: 25,
+                              padding: EdgeInsets.only(right: 5,bottom: 1),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20)
+                              ),
+                              child: ElevatedButton(
+                                onPressed:(){
+                                  print(book.name+" a");
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailBook(book:book)));
+                                },
+                                child: Center(child: Text('Đọc')),
+                              ),
                             ),
                           )
                         ],

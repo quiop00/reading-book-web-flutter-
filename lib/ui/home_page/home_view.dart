@@ -120,9 +120,9 @@ class _HomeView extends State<HomeView>{
                         ],
                       ),
                   ),
-                  Expanded(
-                      child: SlideBar()
-                  )
+                  // Expanded(
+                  //     child: SlideBar()
+                  // )
                 ],
               ),
             ),

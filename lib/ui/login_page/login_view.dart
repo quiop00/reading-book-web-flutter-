@@ -17,6 +17,9 @@ class _LoginView extends State<LoginView>{
   final FirebaseService fb= locator<FirebaseService>();
   final FirebaseAuth firebaseAuth=FirebaseAuth.instance;
   GlobalKey<FormState> _formKey=GlobalKey<FormState>();
+  TextEditingController email=TextEditingController();
+  TextEditingController password=TextEditingController();
+  TextEditingController rePassword=TextEditingController();
   String _email;
   String _password;
   @override
@@ -58,10 +61,10 @@ class _LoginView extends State<LoginView>{
           ),
           Positioned(
               top:MediaQuery.of(context).size.height*0.28,
-              left:20,
+              left:MediaQuery.of(context).size.width*0.25,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 12,horizontal: 20),
-                width: MediaQuery.of(context).size.width-40,
+                width: MediaQuery.of(context).size.width*0.5,
                 height: MediaQuery.of(context).size.height*0.28,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -81,6 +84,7 @@ class _LoginView extends State<LoginView>{
                     child: Column(
                       children: [
                         TextFormField(
+                          controller: email,
                           decoration: InputDecoration(
                               hintText: 'Email',
                               suffixIcon: Icon(Icons.email_outlined,color: Color.fromARGB(255,49,243,208),)
@@ -95,6 +99,7 @@ class _LoginView extends State<LoginView>{
                           onSaved: (input)=>_email=input,
                         ),
                         TextFormField(
+                          controller: password,
                           decoration: InputDecoration(
                             hintText: 'Mật khẩu',
                             suffixIcon: Icon(Icons.visibility,color: Color.fromARGB(255,49,243,208),),
@@ -117,9 +122,9 @@ class _LoginView extends State<LoginView>{
           ),
           Positioned(
             top: MediaQuery.of(context).size.height*(0.28+0.28)*0.95,
-            left: MediaQuery.of(context).size.width*0.25,
+            left: MediaQuery.of(context).size.width*0.35,
             child: Container(
-              width: MediaQuery.of(context).size.width*0.5,
+              width: MediaQuery.of(context).size.width*0.3,
               padding: EdgeInsets.only(top: 10,bottom: 10),
               decoration: BoxDecoration(
                 color: Color.fromARGB(255,49,243,208),
@@ -152,13 +157,13 @@ class _LoginView extends State<LoginView>{
           ),
           Positioned(
             top: MediaQuery.of(context).size.height*(0.28+0.28)*0.95+80,
-            left: MediaQuery.of(context).size.width*0.25,
+            left: MediaQuery.of(context).size.width*0.35,
             child: InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterView()));
+                Navigator.pushNamed(context, "/register");
               },
               child: Container(
-                width: MediaQuery.of(context).size.width*0.5,
+                width: MediaQuery.of(context).size.width*0.3,
                 padding: EdgeInsets.only(top: 10,bottom: 10),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(255,49,243,208),
@@ -185,7 +190,7 @@ class _LoginView extends State<LoginView>{
   checkAuth()async{
     firebaseAuth.authStateChanges().listen((user) {
       if(user!=null){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeView()));
+        Navigator.pushNamed(context, "/home");
       }
     });
   }
@@ -193,13 +198,17 @@ class _LoginView extends State<LoginView>{
     if(_formKey.currentState.validate()){
       _formKey.currentState.save();
     }
+    if(email.text.isEmpty||password.text.isEmpty)
+    {
+      return;
+    }
     try{
       var result= await firebaseAuth.signInWithEmailAndPassword(email: _email, password: _password);
       var user;
       if(result!=null)
          user= result.user;
       if(user!=null){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeView()));
+        Navigator.pushNamed(context, "/home");
       }
     }
     catch(err){
